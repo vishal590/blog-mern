@@ -18,7 +18,7 @@ const userSchema = new mongoose.Schema(
     },
     profilePicture: {
       type: String,
-      default: '',
+      default: 'https://images.pexels.com/photos/19422490/pexels-photo-19422490/free-photo-of-beautiful-young-brunette-leaning-out-from-behind-a-tree-trunk.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1',
     },
   },
   { timestamps: true }
