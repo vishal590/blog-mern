@@ -16,12 +16,14 @@ import {
   updateFailure,
   deleteUserStart,
   deleteUserSuccess,
-  deleteUserFailure
+  deleteUserFailure,
+  signoutSuccess
 } from "../redux/user/userSlice";
+import { Link } from "react-router-dom";
 
 
 const DashProfile = () => {
-  const { currentUser } = useSelector((state) => state.user);
+  const { currentUser, loading } = useSelector((state) => state.user);
   const [imageFile, setImageFile] = useState(null);
   const [imageFileUrl, setImageFileUrl] = useState(null);
   const filePickerRef = useRef();
@@ -149,6 +151,23 @@ const DashProfile = () => {
 
   }
 
+  const handleSignout = async() => {
+    try{
+      const res = await fetch(`/api/user/signout`,{
+        method: 'POST'
+      })
+      const data = await res.json();
+
+      if(!res.ok){
+        console.log(data.message);
+      }else{
+        dispatch(signoutSuccess());
+      }
+    }catch(error){
+      console.log(error.message);
+    }
+  }
+
   return (
     <div className="max-w-lg mx-auto p-3 w-full">
       <h1 className="my-7 text-center font-semibold text-3xl">Profile</h1>
@@ -217,13 +236,20 @@ const DashProfile = () => {
           className="mb-2"
           onChange={handleChange}
         />
-        <Button type="submit" gradientDuoTone="purpleToPink">
-          Update
+        <Button type="submit" gradientDuoTone="purpleToPink" disabled={loading || imageFileUploading}>
+          {loading ? 'Loading...' : 'Update'}
         </Button>
+        {/* {currentUser.isAdmin && ( */}
+          <Link to={'/create-post'}>
+            <Button type="button" gradientDuoTone='purpleToPink' outline className="w-full">
+              create a post
+            </Button>
+          </Link>
+        {/* )} */}
       </form>
       <div className="text-red-500 flex justify-between mt-5">
         <span className="cursor-pointer" onClick={() => setShowModal(true)}>Delete Account</span>
-        <span className="cursor-pointer">Sign Out</span>
+        <span onClick={handleSignout} className="cursor-pointer">Sign Out</span>
       </div>
       {updateUserSuccess && (
         <Alert className="mt-5">

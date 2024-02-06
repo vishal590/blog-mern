@@ -14,6 +14,23 @@ const DashSidebar = () => {
         setTab(tabFromUrl);
       }
     }, [location.search])
+
+    const handleSignout = async() => {
+      try{
+        const res = await fetch(`/api/user/signout`,{
+          method: 'POST'
+        })
+        const data = await res.json();
+  
+        if(!res.ok){
+          console.log(data.message);
+        }else{
+          dispatch(signoutSuccess());
+        }
+      }catch(error){
+        console.log('signout error',error.message);
+      }
+    }
     
   return (
     <Sidebar className='w-full md:w-56'>
@@ -23,7 +40,7 @@ const DashSidebar = () => {
                     <Sidebar.Item active={tab==='profile'} icon={HiUser} label={'User'} labelColor='dark' as='div'>
                         Profile
                     </Sidebar.Item>
-                    <Sidebar.Item active icon={HiArrowSmRight} className='cursor-pointer' as='div'>
+                    <Sidebar.Item active icon={HiArrowSmRight} className='cursor-pointer' as='div' onClick ={handleSignout}>
                         Sign Out
                     </Sidebar.Item>
                 </Link>
