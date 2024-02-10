@@ -47,14 +47,14 @@ const DashSidebar = () => {
               Profile
             </Sidebar.Item>
           </Link>
-          <Link to="/dashboard?tab=posts">
+          <Link to="/dashboard?tab=users">
             <Sidebar.Item
-              active={tab === "posts"}
+              active={tab === "users"}
               icon={HiDocumentText}
               className="cursor-pointer"
-              as="div"
+              as="div"  
             >
-              Posts
+              Users
             </Sidebar.Item>
           </Link>
           <Sidebar.Item
